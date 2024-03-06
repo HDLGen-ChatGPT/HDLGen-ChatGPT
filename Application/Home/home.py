@@ -24,29 +24,23 @@ class Home(QMainWindow):
         self.setWindowTitle("HDLGen-ChatGPT Version 1.0.0")
 
         self.cornerWidget = QWidget()
-        #self.generate_btn = QPushButton("Generate")
-        #self.generate_btn.setFont(small_text_font)
         self.start_vivado_btn = QPushButton("Open EDA Project")
         self.start_vivado_btn.setFont(small_text_font)
         self.export_project_btn = QPushButton("Export Project")
         self.export_project_btn.setFont(small_text_font)
         self.cornerWidgetLayout = QHBoxLayout()
         self.cornerWidgetLayout.setContentsMargins(0, 0, 0, 0)
-        #self.cornerWidgetLayout.addWidget(self.generate_btn)
         self.cornerWidgetLayout.addWidget(self.start_vivado_btn)
         self.cornerWidgetLayout.addWidget(self.export_project_btn)
         self.cornerWidget.setLayout(self.cornerWidgetLayout)
 
         # Initializing UI Elements
         self.mainLayout = QVBoxLayout()
-
         self.tabs = QTabWidget()
 
         # Creating a container
         self.container = QWidget()
-
         self.proj_dir = proj_dir
-
         self.generator = Generator()
         self.project_manager = ProjectManager(self.proj_dir, self)
 
@@ -86,7 +80,7 @@ class Home(QMainWindow):
             self.hdl_designer.ioPorts.save_data()
             self.hdl_designer.architecture.save_data()
             self.hdl_designer.generate.save_data()
-            self.hdl_designer.testplan.save_xml()
+            self.hdl_designer.testplan.save_data()
             self.hdl_designer.internalSignal.save_data()
             return QMessageBox.Save
         elif result == QMessageBox.Discard:
@@ -105,7 +99,7 @@ class Home(QMainWindow):
         self.hdl_designer = HDLDesigner(self.proj_dir, load_data)
 
         self.tabs.addTab(self.project_manager, "Project Manager")
-        self.tabs.addTab(self.hdl_designer, "HDL Designer")
+        self.tabs.addTab(self.hdl_designer, "Component Designer")
         self.tabs.addTab(Help(), "Help")
         self.tabs.currentChanged.connect(self.handle_tab_change)
         font = self.tabs.font()
@@ -124,18 +118,15 @@ class Home(QMainWindow):
         self.hdl_designer.generate.generate_model.clicked.connect(self.HDL_model_generate)
         self.hdl_designer.generate.generate_chatgpt_model.clicked.connect(self.chatgpt_model_generate)
         self.hdl_designer.generate.generate_testbench.clicked.connect(self.HDL_testbench_generate)
-        self.hdl_designer.generate.generate_chatgpt_testbench.clicked.connect(self.chatgpt_testbench_generate)
         self.hdl_designer.generate.generate_chatgpt_title.clicked.connect(self.chatgpt_title_generate)
 
         self.hdl_designer.generate.loc_model.clicked.connect(self.open_model_folder)
         self.hdl_designer.generate.chatgpt_loc_model.clicked.connect(self.open_chatgpt_folder)
         self.hdl_designer.generate.loc_testbench.clicked.connect(self.open_testbench_folder)
-        self.hdl_designer.generate.chatgpt_loc_testbench.clicked.connect(self.open_chatgpt_folder)
         self.hdl_designer.generate.chatgpt_loc_title.clicked.connect(self.open_chatgpt_folder)
 
         self.hdl_designer.generate.delete_bk_title_chatgpt.clicked.connect(self.delete_title_msg_backups)
         self.hdl_designer.generate.delete_bk_model_chatgpt.clicked.connect(self.delete_model_msg_backups)
-        self.hdl_designer.generate.delete_bk_testbench_chatgpt.clicked.connect(self.delete_testbench_msg_backups)
         self.hdl_designer.generate.testbench_log.clicked.connect(self.openEDALog)
         self.hdl_designer.generate.delete_bk_model.clicked.connect(self.delete_model_backups)
         self.hdl_designer.generate.delete_bk_testbench.clicked.connect(self.delete_testbench_backups)
@@ -633,7 +624,7 @@ class Home(QMainWindow):
             self.hdl_designer.architecture.save_data()
             self.hdl_designer.generate.save_data()
             self.hdl_designer.internalSignal.save_data()
-            self.hdl_designer.testplan.save_xml()
+            self.hdl_designer.testplan.save_data()
 
 
 
